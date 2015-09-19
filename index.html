@@ -5,99 +5,72 @@
 <meta charset="utf-8">
 <title>Space Race Cards</title>
 
+<link rel="stylesheet" type="text/css" href="css/spaceracecards.css">
 
-<style type="text/css">
-	html {
-	  box-sizing: border-box;
-	}
-
-	*, *:before, *:after {
-	  box-sizing: inherit;
-	}
-
-	#mainContainer {
-		width: 850px;
-		margin-left: auto;
-		margin-right: auto;
-		border: 1px solid blue;
-		height: 100%;
-	}
-
-	.clearfix {
-		clear: both;
-	}
-
-	.card {
-		width: 250px;
-		height: 350px;
-		margin: 5px 15px;
-		border: 3px solid black;
-		border-radius: 15px;
-		float: left;
-		position: relative;
-	}
-
-	.card div {
-		border: 4px solid #666;
-		border-radius: 5px;
-		background-color: #CCC;
-		position: absolute;
-	}
-
-	.card_title {
-		width: 90%;
-		max-height: 30px;
-		top: 10px;
-		left: 5%;
-	}
-
-	.card_title h2 {
-		text-align: center;
-		font-size: 1.2em;
-		line-height: 1em;
-		margin: 0;
-		padding: 0;
-	}
-
-	.card_img {
-		top: 45px;
-		left: 5%;
-		width: 90%;
-		height: 130px;
-	}
-
-	.card_desc {
-		top: 180px;
-		left: 5%;
-		width: 90%;
-		height: 130px;
-	}
-
-</style>
 </head>
 
 <body>
 
 <div id="mainContainer">
 
-<section class="card">
+<section class="card" data-type="team_deck">
 	<div class="card_title">
 		<h2>Title Here</h2>
 	</div>
 	<div class="card_img"></div>
-	<div class="card_desc"></div>
+	<div class="card_desc">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua.</p>
+	</div>
+	<div class="card_stat_block">
+		<ul>
+			<li data-stat="speed">1</li>
+			<li data-stat="maneuver">2</li>
+			<li data-stat="body">30</li>
+			<li data-stat="shield">4</li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+	<div class="card_back"></div>
 </section>
 
-<section class="card">
+<section class="card" data-type="action_deck">
 	<div class="card_title">
 		<h2>Title Here</h2>
 	</div>
+	<div class="card_img"></div>
+	<div class="card_desc">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua.</p>
+	</div>
+	<div class="card_stat_block">
+		<ul>
+			<li data-stat="speed">1</li>
+			<li data-stat="maneuver">2</li>
+			<li data-stat="body">3</li>
+			<li data-stat="shield">4</li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+	<div class="card_back"></div>
 </section>
 
-<section class="card">
+<section class="card" data-type="track_deck">
 	<div class="card_title">
 		<h2>Title Here</h2>
 	</div>
+	<div class="card_img"></div>
+	<div class="card_desc">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua.</p>
+	</div>
+	<div class="card_stat_block">
+		<ul>
+			<li data-stat="speed">1</li>
+			<li data-stat="maneuver">2</li>
+			<li data-stat="body">3</li>
+			<li data-stat="shield">4</li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+	<div class="card_back"></div>
 </section>
 
 <section class="card">
