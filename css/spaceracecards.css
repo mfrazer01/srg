@@ -1,0 +1,197 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+p {
+	font-family: Georgia;
+}
+
+#mainContainer {
+	width: 850px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid blue;
+	height: 100%;
+}
+
+.clearfix, .card .clearfix {
+	clear: both;
+	border: 0;
+	border-radius: 0px;
+	background-color: transparent;
+}
+
+.card {
+	width: 250px;
+	height: 350px;
+	margin: 5px 15px;
+	border: 3px solid black;
+	border-radius: 15px;
+	float: left;
+	position: relative;
+}
+
+.card p {
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.card div {
+	border: 4px solid #4C4848;
+	border-radius: 5px;
+	background-color: #E8D99D;
+	position: absolute;
+}
+
+.card h3 {
+	text-align: center;
+	margin: 5px auto 0px auto;
+}
+
+.card .card_title {
+	width: 90%;
+	max-height: 30px;
+	top: 10px;
+	left: 5%;
+}
+
+.card .card_title h2 {
+	text-align: center;
+	font-size: 1.2em;
+	line-height: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+.card .card_img {
+	top: 45px;
+	left: 5%;
+	width: 90%;
+	height: 130px;
+	background: url('http://placehold.it/220x130') center;
+}
+
+.card .card_desc {
+	top: 180px;
+	left: 5%;
+	width: 90%;
+	height: 130px;
+}
+
+.card .card_stat_block {
+	width: 90%;
+	top: 310px;
+	left: 8%;
+	/*border: 1px solid blue;*/
+	border: 0;
+	border-radius: 0;
+	background-color: transparent;
+	/*font-family: Helvetica;*/
+}
+
+.card_stat_block ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-left: 45%;
+}
+
+.card_stat_block li {
+	display: inline-block;
+	float: left;
+	width: 20%;
+	margin: 2% 2% 2% 2%;
+	background-color: red;
+	border: 4px solid #4C4848;
+	border-radius: 30%;
+	text-align: center;
+}
+
+.card_stat_block li[data-stat='speed'] {
+	background-color: #55DB6E;
+}
+
+.card_stat_block li[data-stat='maneuver'] {
+	background-color: #E5840D;
+}
+
+.card_stat_block li[data-stat='body'] {
+	background-color: #E20D42;
+}
+
+.card_stat_block li[data-stat='shield'] {
+	background-color: #0DE0DC;
+}
+
+.card_stat_block li.hidden {
+	background-color: transparent;
+	border: 4px solid transparent;
+	color: transparent;
+}
+
+
+
+.card .card_back {
+	display: none;
+	top: 0;
+	left: 0;
+	width: 110%;
+	height: 110%;
+	z-index: 5;
+	border: 0;
+	overflow: hidden;
+}
+
+/* TEAM DECK */
+.card[data-type='team_deck'] {
+	/*background-color: #6EAEEA;*/
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,7db9e8+100,207cca+100 */
+	background: #1e5799; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1e5799 0%, #7db9e8 100%, #207cca 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(100%,#7db9e8), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #1e5799 0%,#7db9e8 100%,#207cca 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #1e5799 0%,#7db9e8 100%,#207cca 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #1e5799 0%,#7db9e8 100%,#207cca 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #1e5799 0%,#7db9e8 100%,#207cca 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#207cca',GradientType=0 ); /* IE6-9 */
+}
+
+.card[data-type='team_deck'] .card_back {
+	background-color: #6EAEEA;
+}
+
+.card[data-type='action_deck'] {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6d0019+0,a90329+100 */
+	background: #6d0019; /* Old browsers */
+	background: -moz-linear-gradient(top,  #6d0019 0%, #a90329 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6d0019), color-stop(100%,#a90329)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #6d0019 0%,#a90329 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #6d0019 0%,#a90329 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #6d0019 0%,#a90329 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #6d0019 0%,#a90329 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d0019', endColorstr='#a90329',GradientType=0 ); /* IE6-9 */
+}
+
+.card[data-type='track_deck'] {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fb9d23+0,ffc578+100 */
+	background: #fb9d23; /* Old browsers */
+	background: -moz-linear-gradient(top,  #fb9d23 0%, #ffc578 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fb9d23), color-stop(100%,#ffc578)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #fb9d23 0%,#ffc578 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #fb9d23 0%,#ffc578 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #fb9d23 0%,#ffc578 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #fb9d23 0%,#ffc578 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fb9d23', endColorstr='#ffc578',GradientType=0 ); /* IE6-9 */
+}	
+
+
+
