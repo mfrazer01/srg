@@ -1,0 +1,57 @@
+
+
+
+Cards - Team Deck ?
+	Vehicles
+		Components (Engine, Armor, Hull, Thrusters, Crew)
+		Stats (Speed, Maneuverability, Body, Armor)
+		Special Ability
+	Crew
+		Abilities
+			Engineer - Free Malfunction repair
+			Pilot - Bonus to Speed or Maneuver
+			Soldier - Bonus to Body or Armor
+
+
+Cards - Route Deck ?
+	Checkpoints
+		Length
+		Effects
+
+Cards - Action Deck ?
+	Upgrades
+		Component (Engine, Armor, Hull, Thrusters, Crew)
+		Special Ability
+	Attacks / Malfunctions ?
+		Component (Engine, Armor, Hull, Thrusters, Crew)
+		Special Ability
+		Range
+	Specials
+		Special Ability
+			Shortcut
+			Interrupt
+
+Tokens ?
+	Vehicle
+	Credits
+
+Rules
+	One Upgrade per system
+	No limit to Malfunctions
+	Sacrifice Upgrade to repair Malfunction.
+		Components must match
+	Minimum per race:  1 Vehicle, 1 Crew
+	Maximum per race: 1 Vehicle, 2 Crew
+	Maximum per team: 3 Vehicle, 5 Crew
+	Vehicle not in race repairs all Malfunctions
+	Bet on other teams if not in the current race?
+	Starting Credits: 10?
+
+
+
+Play Phases
+	Draw
+	Draft
+		Bid for Vehicles and Crew
+	Route
+	Race

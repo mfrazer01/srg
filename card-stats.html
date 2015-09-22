@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+
+	<script type="text/javascript" src="js/d3.v3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lodash.underscore.min.js"></script>
+
+
+<style type="text/css">
+	#container {
+		width: 1200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.card {
+		border: 4px solid black;
+		float: left;
+		margin: 5px;
+		padding: 5px;
+		width: 150px;
+		height: 200px;
+	}
+
+	.card .card-type {
+		text-align: center;
+	}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="container">
+</div>
+
+<script type="text/javascript">
+	
+var vehicleRange = {
+	engine : [1,2,3,4],
+	maneuver : [1,2,3,4],
+	body : [1,2,3,4],
+	shield : [0,1,2,3,4],
+	special : [0,2],
+	points : [4,6,8,10],
+	creditDiv : 2
+}
+
+var crewRange = {
+	engine : [-1,0,1,2,3],
+	maneuver : [-1,0,1,2,3],
+	body : [-1,0,1,2,3],
+	shield : [-1,0,1,2,3],
+	special : [0,1],
+	points : [0,1,2,3],
+	creditDiv : 1
+}
+
+var upgradeRange = {
+	engine : [-3,-2,-1,0,1,2,3],
+	maneuver : [-3,-2,-1,0,1,2,3],
+	body : [-3,-2,-1,0,1,2,3],
+	shield : [-3,-2,-1,0,1,2,3],
+	special : [0,1],
+	points : [-3,-2,-1,0,1,2,3],
+	creditDiv : 1
+}
+
+var vehicleCards = [{}],
+	crewCards = [{}],
+	upgradeCards = [{}];
+// var pointsRange = vehicleRange.points;
+
+vehicleCards = getCombinations(vehicleRange);
+crewCards = getCombinations(crewRange);
+upgradeCards = getCombinations(upgradeRange);
+
+var validCards = {
+	vehicles : getValidCards(vehicleCards),
+	crew : getValidCards(crewCards),
+	upgrades : getValidCards(upgradeCards)
+}
+
+function getCombinations (ranges) {
+	var cards = [{}];
+	var counter = 0;
+	for (e in ranges.engine) {
+		// console.log("e:" + ranges.engine[e]);
+		for (m in ranges.maneuver) {
+			// console.log("e:" + e + " " + "m:" + m);
+			for (b in ranges.body) {
+				// console.log("e:" + e + " " + "m:" + m + " " + "b:" + b);
+				for (s in ranges.shield) {
+					// console.log("e:" + e + " " + "m:" + m + " " + "b:" + b + " " + "s:" + s);
+					for (sp in ranges.special) {
+						// console.log("e:" + e + " " + "m:" + m + " " + "b:" + b + " " + "s:" + s + " " + "sp:" + sp);
+						// console.log('counter: ' + counter);
+						cards[counter] = {
+							engine : ranges.engine[e],
+							maneuver : ranges.maneuver[m],
+							body : ranges.body[b],
+							shield : ranges.shield[s],
+							special : ranges.special[sp]
+						}
+						cards[counter] = checkValidCard(cards[counter],ranges);
+						// console.log(counter + " : " + cards[counter].engine + " " + cards[counter].maneuver + " " + cards[counter].body + " " + cards[counter].shield + " " + cards[counter].special + " " + cards[counter].totalPoints + " " + cards[counter].valid);
+						counter++;
+					}
+				}
+			}
+		}
+		// counter++;
+	}
+	return cards;
+}
+
+function checkValidCard (card, range) {
+	var statSum = parseInt(card.engine) + parseInt(card.maneuver) + parseInt(card.body) + parseInt(card.shield) + parseInt(card.special);
+	card.totalPoints = statSum;
+	card.credits = Math.abs(card.totalPoints / range.creditDiv);
+	// console.log('statSum : ' + statSum);
+	if (range.points.indexOf(statSum) == -1) {
+		card.valid = false;
+	} else {
+		card.valid = true;
+	}
+	// console.log(card.valid);
+	return card;
+}
+
+
+
+
+function getValidCards (allCards) {
+	var cards = [{}],
+		cardCounter = 0;
+	for (var i=0; i<allCards.length; i++) {
+		if (allCards[i].valid) {
+			// cards[cardCounter].cardNumber = cardCounter;
+			// cards[cardCounter] = allCards[i];
+			// console.log(i + " : " + allCards[i].engine + " " + allCards[i].maneuver + " " + allCards[i].body + " " + allCards[i].shield + " " + allCards[i].special + " " + allCards[i].totalPoints + " " + allCards[i].valid);
+			cards[cardCounter] = {
+				cardNumber : cardCounter+1,
+				engine : allCards[i].engine,
+				maneuver : allCards[i].maneuver,
+				body : allCards[i].body,
+				shield : allCards[i].shield,
+				special : allCards[i].special,
+				totalPoints : allCards[i].totalPoints,
+				credits : allCards[i].credits,
+				valid : allCards[i].valid
+			}
+			// console.log(cards[cardCounter].cardNumber + " : " + cards[cardCounter].engine + " " + cards[cardCounter].maneuver + " " + cards[cardCounter].body + " " + cards[cardCounter].shield + " " + cards[cardCounter].special + " " + cards[cardCounter].totalPoints + " " + cards[cardCounter].valid);
+			console.log(cards[cardCounter].cardNumber + "," + cards[cardCounter].engine + "," + cards[cardCounter].maneuver + "," + cards[cardCounter].body + "," + cards[cardCounter].shield + "," + cards[cardCounter].special + "," + cards[cardCounter].totalPoints + "," + cards[cardCounter].credits);
+			cardCounter++;
+		}
+	}
+	return cards;
+}
+
+
+function writeCard (card,type) {
+	var $container = $('#container');
+	$container.append('<div class="card" id="' + type + card.cardNumber + '" data-num="' + card.cardNumber + '"></div>');
+	var cardClass = '#' + type + card.cardNumber;
+	var $cardDiv = $(cardClass);
+	// $cardDiv.html('HELLO WORLD');
+	$cardDiv.append('<div class="card-type"><strong>' + type + '</strong></div>');
+	$cardDiv.append('<ul>');
+	$cardDiv.append('<li>Card #' + card.cardNumber + '</li>');
+	$cardDiv.append('<li>Engine = ' + card.engine + '</li>');
+	$cardDiv.append('<li>Maneuver = ' + card.maneuver + '</li>');
+	$cardDiv.append('<li>Body = ' + card.body + '</li>');
+	$cardDiv.append('<li>Shield = ' + card.shield + '</li>');
+	$cardDiv.append('<li>Special = ' + card.special + '</li>');
+	$cardDiv.append('<li>Total Points = ' + card.totalPoints + '</li>');
+	$cardDiv.append('<li>Credits = ' + card.credits + '</li>');
+	$cardDiv.append('</ul>');
+}
+
+function writeAllCards (cards,type) {
+	for (var i=0;i<cards.length;i++) {
+		writeCard(cards[i],type);
+	}
+}
+
+$(document).ready(function () {
+
+function writeContainer (cardName,cards) {
+	$container = $('#container');
+	$container.append(cardName + "<br />");
+	for (var cardCounter=0; cardCounter<cards.length;cardCounter++) {
+		$container.append(cards[cardCounter].cardNumber + "," + cards[cardCounter].engine + "," + cards[cardCounter].maneuver + "," + cards[cardCounter].body + "," + cards[cardCounter].shield + "," + cards[cardCounter].special + "," + cards[cardCounter].totalPoints + "," + cards[cardCounter].credits + "<br />");
+	}
+	$container.append(cardName + "<br />");
+	$container.append("<br />");
+}
+
+// writeContainer("VEHICLES",validCards.vehicles);
+// writeContainer("CREW",validCards.crew);
+// writeContainer("UPGRADE",validCards.upgrades);
+
+
+// writeCard(validCards.vehicles[1]);
+
+writeAllCards(validCards.vehicles,"VEHICLE");
+writeAllCards(validCards.crew,"CREW");
+// writeAllCards(validCards.upgrades,"UPGRADE");
+
+});
+</script>
+
+
+</body>
+</html>
