@@ -1,0 +1,56 @@
+
+
+Game Set Up
+	Deal 1 lvl 2 Vehicle and 1 lvl 1 Crew card from the Team Deck to each player.
+	Shuffle the remaining Team cards and set that aside as the Team Draw.
+	Shuffle the Action Deck and deal 5 cards to each player.
+
+Play Area
+	Players
+		Garage:
+			Maximum 3 Vehicles.
+			Maximum 5 Crew.
+			Maximum 5 Upgrades.
+			Maximum 1 Garage Upgrade.
+			(Maximums may be overridden by card abilities)
+		Race:
+			Maximum 1 Vehicle
+			Maximum 2 Crew
+			Maximum 3 Upgrades
+			(Maximums may be overridden by card abilities)
+		Hand:	
+			Maximum 5 Action cards
+			(Maximums may be overridden by card abilities)
+	Community
+		Team Auction
+			Team Draw
+			Team Discard
+			5 auction cards face up
+		Race
+			1 start and 1 finish, or 1 lap cards
+			Minimum 1 checkpoint card.
+			Maximum 5 checkpoint cards.
+			(Maximums may be overridden by card abilities)
+
+Team Auction
+	Draw 5 cards face up from the Team Draw.
+	The first face up Team card drawn is the current Auction.
+	Players place 0, 1, or 2 Bid cards face down in front of them.
+	Bid cards can be played from the hand or garage.
+	Total value of a player's bid cards is that player's bid.
+	When all players that are interested in bidding have placed Bid cards, all bids are displayed face up simultaneously.
+	The player with the highest bid that equals or exceeds the value of the Auction card wins the Auction card.
+	If no bids equal or exceed the value of the Auction card, the Auction card is moved to the Team Discard.
+	The winner of the auction discards his bid cards in exchange for the Auction card.
+	All other players return their bid cards to their hand/garage.
+	The Auction continues with the next available face up Team card.
+	Once the last card is auctioned, a new round of Team Auction can begin if needed.
+	Number of Auction rounds:
+		2-3 players : 1 round
+		3-4 players : 2 rounds
+		5-6 players : 3 rounds
+	If there are not enough cards in the Team Draw pile to support a new auction round, shuffle the Team Discard and place that as the new Team Draw pile.
+
+	Special Auction Cards
+		Stop the Bidding (can be Canceled):  The current auction ends immediately and remaining auction cards are discarded.  If bidding was in progress, all bids are returned to the players' hands.
+		Continue the Auction (can be Canceled):  Another Auction round is added after the current round completes.
