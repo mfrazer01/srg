@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+
+	<script type="text/javascript" src="js/lib/d3.v3.min.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lib/lodash.underscore.min.js"></script>
+
+	<script type="text/javascript" src="js/data-js/vehicle-test.js"></script>
+	<script type="text/javascript" src="js/data-js/crew-test.js"></script>
+	<script type="text/javascript" src="js/data-js/upgrade-test.js"></script>
+	<script type="text/javascript" src="js/data-js/action-test.js"></script>
+	<script type="text/javascript" src="js/data-js/track-test.js"></script>
+
+<style type="text/css">
+	#container {
+		width: 1200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.card {
+		border: 4px solid black;
+		float: left;
+		margin: 5px;
+		padding: 5px;
+		width: 150px;
+		height: 200px;
+	}
+
+	.card .card-type {
+		text-align: center;
+	}
+
+	.clearboth {
+		clear: both;
+	}
+
+	#navlinks li {
+		float: left;
+		padding: 10px;
+		border: 1px solid black;
+		background-color: #CCC;
+		list-style: none;
+		color: white;
+		cursor: pointer;
+	}
+
+	/*th[data-column="Deck"], td[data-column="Deck"] { background-color: #CCC; }*/
+
+	.vehicleTable[data-key="Deck"] { display: table-cell; }
+	.vehicleTable[data-key="Card ID"] { display: table-cell; }
+	.vehicleTable[data-key="Card Number"] { display: table-cell; }
+	.vehicleTable[data-key="Name"] { display: none; }
+	.vehicleTable[data-key="Engine"] { display: table-cell; }
+	.vehicleTable[data-key="Maneuver"] { display: table-cell; }
+	.vehicleTable[data-key="Body"] { display: table-cell; }
+	.vehicleTable[data-key="Shield"] { display: table-cell; }
+	.vehicleTable[data-key="Special"] { display: table-cell; }
+	.vehicleTable[data-key="Special Ability"] { display: none; }
+	.vehicleTable[data-key="Distance"] { display: none; }
+	.vehicleTable[data-key="Environmental Effect"] { display: none; }
+	.vehicleTable[data-key="Auction Phase"] { display: table-cell; }
+	.vehicleTable[data-key="Race Prep Phase"] { display: table-cell; }
+	.vehicleTable[data-key="Race Phase"] { display: table-cell; }
+	.vehicleTable[data-key="Total Points"] { display: table-cell; }
+	.vehicleTable[data-key="Card Value"] { display: table-cell; }
+	.vehicleTable[data-key="Done"] { display: table-cell; }
+
+
+
+</style>
+</head>
+
+<body>
+
+<div id="container">
+<ul id="navlinks">
+<li data-link="vehicleTable">Vehicles</li>
+<li data-link="crewTable">Crew</li>
+<li data-link="upgradeTable">Upgrades</li>
+<li data-link="actionTable">Actions</li>
+<li data-link="trackTable">Tracks</li>
+<li data-link="allTable">All Cards</li>
+</ul>
+<div class="clearboth"></div>
+
+
+</div>
+
+<script type="text/javascript">
+
+function combineObj (inObj) {
+	var tmpObj = {"Deck":null,"Card ID":null,"Card Number":null,"Type":null,"Name":null,"Engine":null,"Maneuver":null,"Body":null,"Shield":null,"Special":null,"Special Ability":null,"Distance":null,"Environmental Effect":null,"Auction Phase":null,"Race Prep Phase":null,"Race Phase":null,"Total Points":null,"Card Value":null,"Done":null}
+	var keyArray = d3.keys(inObj);
+	for (var i=0; i<keyArray.length; i++) {
+		tmpObj[keyArray[i]] = inObj[keyArray[i]];
+	}
+	return tmpObj;
+}
+
+function addFields(inArray) {
+	for (var i=0; i<inArray.length;i++) {
+		inArray[i] = combineObj(inArray[i]);
+	}
+	return inArray;
+}
+
+function normalizeData () {
+	var args = Array.prototype.slice.call(arguments);
+	for (var i=0; i<args.length;i++) {
+		addFields(args[i]);
+	}
+}
+
+function fillArrayObj (inArrayObj, key, value) {
+	for (var i=0; i<inArrayObj.length; i++) {
+		if (key == "Card ID") {
+			inArrayObj[i][key] = value + fillDigits(inArrayObj[i]["Card Number"]);
+		} else {
+			inArrayObj[i][key] = value;
+		}
+	}
+	return inArrayObj;
+}
+
+vehicleCards = fillArrayObj(vehicleCards, "Deck", "Team");
+vehicleCards = fillArrayObj(vehicleCards, "Type", "Vehicle");
+vehicleCards = fillArrayObj(vehicleCards, "Card ID", "VHCL");
+vehicleCards = fillArrayObj(vehicleCards, "Auction Phase", "1");
+vehicleCards = fillArrayObj(vehicleCards, "Race Prep Phase", "1");
+vehicleCards = fillArrayObj(vehicleCards, "Race Phase", "1");
+crewCards = fillArrayObj(crewCards, "Deck", "Team");
+crewCards = fillArrayObj(crewCards, "Type", "Crew");
+crewCards = fillArrayObj(crewCards, "Card ID", "CREW");
+crewCards = fillArrayObj(crewCards, "Auction Phase", "1");
+crewCards = fillArrayObj(crewCards, "Race Prep Phase", "1");
+crewCards = fillArrayObj(crewCards, "Race Phase", "1");
+upgradeCards = fillArrayObj(upgradeCards, "Deck", "Action");
+upgradeCards = fillArrayObj(upgradeCards, "Type", "Upgrade");
+upgradeCards = fillArrayObj(upgradeCards, "Card ID", "UPGR");
+upgradeCards = fillArrayObj(upgradeCards, "Auction Phase", "1");
+upgradeCards = fillArrayObj(upgradeCards, "Race Prep Phase", "1");
+upgradeCards = fillArrayObj(upgradeCards, "Race Phase", "1");
+actionCards = fillArrayObj(actionCards, "Deck", "Action");
+actionCards = fillArrayObj(actionCards, "Card ID", "UPGR");
+trackCards = fillArrayObj(trackCards, "Deck", "Track");
+trackCards = fillArrayObj(trackCards, "Card ID", "TRAK");
+
+var allCards, concatCards = [];
+function initData () {
+	normalizeData(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
+	allCards = concatCards.concat(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
+}
+
+function fillDigits (num) {
+	if (!num) return "";
+	var digitStr, outStr;
+	if (num / 1000 >= 1) {
+		digitStr = "";
+	} else if (num / 100 >=1) {
+		digitStr = "0";
+	} else if (num / 10 >=1) {
+		digitStr = "00";
+	} else if (num >=1) {
+		digitStr = "000";
+	}
+	outStr = digitStr + num.toString();
+	// console.log(outStr);
+	return outStr;
+}
+
+function generateCardID (cardCode,cardNum) {
+	return cardCode + fillDigits(cardNum);
+}
+
+
+// normalizeData(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
+
+
+// allCards = concatCards.concat(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
+
+// console.log(allCards);
+// combineObj(vehicleCards[0]);
+
+// d3.csv("vehicle-test.csv", function(data) {
+//   console.log(data[0]);
+// });
+
+
+// console.log(vehicleCards);
+
+// console.log(d3.keys(vehicleCards[0]));
+// console.log(vehicleCards[0]);
+// var vehicleTable = d3.select('#vehicleTable');
+// var thead = vehicleTable.append('tr');
+// var theadth = thead.selectAll('th')
+// 				.data(d3.keys(vehicleCards[0]))
+// 				.enter()
+// 				.append('th')
+// 				.text(function (d) { return d; });
+// // var tr = vehicleTable.append('tr');
+// var tr = vehicleTable.selectAll('tr')
+// 			.data(vehicleCards)
+// 			.enter()
+// 			.append('tr');
+// var trtd = tr.selectAll('td')
+// 			.data(function (d) {return d3.values(d); })
+// 			.enter()
+// 			.append('td')
+// 			.text(function (d) { return d; });
+
+// var keys = d3.keys(vehicleCards[0]);
+// console.log(keys);
+
+function writeTable (tableID, tableData) {
+	var keys = d3.keys(tableData[0]);
+	var table = d3.select('#'+tableID),
+		headRow = table.append('tr'),
+		headCell = headRow.selectAll('th')
+				.data(keys)
+				.enter()
+				.append('th')
+				.classed(tableID,true)
+				.attr('data-key',function (d) { return d; })
+				.text(function (d) { return d; }),
+		tr = table.selectAll('tr')
+			.data(tableData)
+			.enter()
+			.append('tr'),
+		td = tr.selectAll('td')
+			.data(function (d) {return d3.values(d); })
+			.enter()
+			.append('td')
+			.classed(tableID,true)
+			.attr('data-key',function (d, i) { return keys[i]; })
+			.attr('data-value',function (d) { return d; })
+			.text(function (d) { return d; });
+}
+
+function showTable (tableId) {
+	$('table').css('display','none');
+	$('#'+tableId).css('display','block');
+}
+
+
+
+$(document).ready(function () {
+initData();
+
+
+d3.select('#container').append('table').attr('id','vehicleTable');
+d3.select('#container').append('table').attr('id','crewTable');
+d3.select('#container').append('table').attr('id','upgradeTable');
+d3.select('#container').append('table').attr('id','actionTable');
+d3.select('#container').append('table').attr('id','trackTable');
+d3.select('#container').append('table').attr('id','allTable');
+
+writeTable('vehicleTable', vehicleCards);
+writeTable('crewTable', crewCards);
+writeTable('upgradeTable', upgradeCards);
+writeTable('actionTable', actionCards);
+writeTable('trackTable', trackCards);
+writeTable('allTable', allCards);
+// console.log(allCards);
+showTable('vehicleTable');
+
+$('#navlinks li').on('click',function () {
+	var thisLink = $(this).attr('data-link');
+	console.log(thisLink);
+	showTable(thisLink);
+})
+
+
+// d3.select('#container').append('table').attr('id','comboTable');
+
+// writeTable('#comboTable', testobj);
+
+});
+
+// var testobj = vehicleCards;
+// _.extend(testobj,crewCards,upgradeCards,actionCards,trackCards);
+// console.log(testobj);
+
+// var comboObject = _.extend({},vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
+// console.log(comboObject);
+
+
+
+</script>
+
+
+</body>
+</html>
