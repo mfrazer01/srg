@@ -15,11 +15,34 @@
 	<script type="text/javascript" src="js/data-js/track-test.js"></script>
 
 <style type="text/css">
+	table {
+		border-collapse: collapse;
+		margin: 0 auto;
+		width: 98%;
+	}
+
 	#container {
 		width: 1200px;
 		margin-left: auto;
 		margin-right: auto;
 	}
+
+	#tableContainer {
+		max-width: 95%;
+		border: 2px solid #000;
+		border-radius: 5px;
+		margin: 1em auto 1em auto;
+		padding: 1%;
+		font-family: Helvetica;
+		font-size: 0.8em;
+	}
+
+	#navContainer {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 60%;
+	}
+
 
 	.card {
 		border: 4px solid black;
@@ -38,15 +61,36 @@
 		clear: both;
 	}
 
+	#navlinks {
+		width: 100%;
+	}
+
 	#navlinks li {
 		float: left;
 		padding: 10px;
-		border: 1px solid black;
+		border: 2px solid black;
+		border-left: 0;
 		background-color: #CCC;
 		list-style: none;
-		color: white;
+		color: #000;
 		cursor: pointer;
+		width: 10%;
+		text-align: center;
 	}
+
+	#navlinks li:first-child { border-left: 2px solid black; }
+
+	th {
+		background-color: #CCC;
+	}
+
+	th, td {
+		text-align: center;
+		padding: 2px 5px;
+		border-right: 1px dotted #333;
+	}
+
+	th:first-child, td:first-child { border-left: 1px dotted #333; }
 
 	/*th[data-column="Deck"], td[data-column="Deck"] { background-color: #CCC; }*/
 
@@ -77,20 +121,28 @@
 <body>
 
 <div id="container">
-<ul id="navlinks">
-<li data-link="vehicleTable">Vehicles</li>
-<li data-link="crewTable">Crew</li>
-<li data-link="upgradeTable">Upgrades</li>
-<li data-link="actionTable">Actions</li>
-<li data-link="trackTable">Tracks</li>
-<li data-link="allTable">All Cards</li>
-</ul>
-<div class="clearboth"></div>
 
+	<div id="navContainer">
+		<ul id="navlinks">
+			<li data-link="vehicleTable">Vehicles</li>
+			<li data-link="crewTable">Crew</li>
+			<li data-link="upgradeTable">Upgrades</li>
+			<li data-link="actionTable">Actions</li>
+			<li data-link="trackTable">Tracks</li>
+			<li data-link="allTable">All Cards</li>
+			<li class='sort-link'>Sort</li>
+		</ul>
+		<div class="clearboth"></div>
+	</div>
+
+	<div id="tableContainer"></div>
 
 </div>
 
 <script type="text/javascript">
+
+// GLOBAL VARS
+var tableContainer = "#tableContainer";
 
 function combineObj (inObj) {
 	var tmpObj = {"Deck":null,"Card ID":null,"Card Number":null,"Type":null,"Name":null,"Engine":null,"Maneuver":null,"Body":null,"Shield":null,"Special":null,"Special Ability":null,"Distance":null,"Environmental Effect":null,"Auction Phase":null,"Race Prep Phase":null,"Race Phase":null,"Total Points":null,"Card Value":null,"Done":null}
@@ -126,31 +178,34 @@ function fillArrayObj (inArrayObj, key, value) {
 	return inArrayObj;
 }
 
-vehicleCards = fillArrayObj(vehicleCards, "Deck", "Team");
-vehicleCards = fillArrayObj(vehicleCards, "Type", "Vehicle");
-vehicleCards = fillArrayObj(vehicleCards, "Card ID", "VHCL");
-vehicleCards = fillArrayObj(vehicleCards, "Auction Phase", "1");
-vehicleCards = fillArrayObj(vehicleCards, "Race Prep Phase", "1");
-vehicleCards = fillArrayObj(vehicleCards, "Race Phase", "1");
-crewCards = fillArrayObj(crewCards, "Deck", "Team");
-crewCards = fillArrayObj(crewCards, "Type", "Crew");
-crewCards = fillArrayObj(crewCards, "Card ID", "CREW");
-crewCards = fillArrayObj(crewCards, "Auction Phase", "1");
-crewCards = fillArrayObj(crewCards, "Race Prep Phase", "1");
-crewCards = fillArrayObj(crewCards, "Race Phase", "1");
-upgradeCards = fillArrayObj(upgradeCards, "Deck", "Action");
-upgradeCards = fillArrayObj(upgradeCards, "Type", "Upgrade");
-upgradeCards = fillArrayObj(upgradeCards, "Card ID", "UPGR");
-upgradeCards = fillArrayObj(upgradeCards, "Auction Phase", "1");
-upgradeCards = fillArrayObj(upgradeCards, "Race Prep Phase", "1");
-upgradeCards = fillArrayObj(upgradeCards, "Race Phase", "1");
-actionCards = fillArrayObj(actionCards, "Deck", "Action");
-actionCards = fillArrayObj(actionCards, "Card ID", "UPGR");
-trackCards = fillArrayObj(trackCards, "Deck", "Track");
-trackCards = fillArrayObj(trackCards, "Card ID", "TRAK");
+function fillCardData() {
+	vehicleCards = fillArrayObj(vehicleCards, "Deck", "Team");
+	vehicleCards = fillArrayObj(vehicleCards, "Type", "Vehicle");
+	vehicleCards = fillArrayObj(vehicleCards, "Card ID", "VHCL");
+	vehicleCards = fillArrayObj(vehicleCards, "Auction Phase", "1");
+	vehicleCards = fillArrayObj(vehicleCards, "Race Prep Phase", "1");
+	vehicleCards = fillArrayObj(vehicleCards, "Race Phase", "1");
+	crewCards = fillArrayObj(crewCards, "Deck", "Team");
+	crewCards = fillArrayObj(crewCards, "Type", "Crew");
+	crewCards = fillArrayObj(crewCards, "Card ID", "CREW");
+	crewCards = fillArrayObj(crewCards, "Auction Phase", "1");
+	crewCards = fillArrayObj(crewCards, "Race Prep Phase", "1");
+	crewCards = fillArrayObj(crewCards, "Race Phase", "1");
+	upgradeCards = fillArrayObj(upgradeCards, "Deck", "Action");
+	upgradeCards = fillArrayObj(upgradeCards, "Type", "Upgrade");
+	upgradeCards = fillArrayObj(upgradeCards, "Card ID", "UPGR");
+	upgradeCards = fillArrayObj(upgradeCards, "Auction Phase", "1");
+	upgradeCards = fillArrayObj(upgradeCards, "Race Prep Phase", "1");
+	upgradeCards = fillArrayObj(upgradeCards, "Race Phase", "1");
+	actionCards = fillArrayObj(actionCards, "Deck", "Action");
+	actionCards = fillArrayObj(actionCards, "Card ID", "UPGR");
+	trackCards = fillArrayObj(trackCards, "Deck", "Track");
+	trackCards = fillArrayObj(trackCards, "Card ID", "TRAK");
+}
 
 var allCards, concatCards = [];
 function initData () {
+	fillCardData();
 	normalizeData(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
 	allCards = concatCards.concat(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
 }
@@ -168,7 +223,6 @@ function fillDigits (num) {
 		digitStr = "000";
 	}
 	outStr = digitStr + num.toString();
-	// console.log(outStr);
 	return outStr;
 }
 
@@ -176,49 +230,11 @@ function generateCardID (cardCode,cardNum) {
 	return cardCode + fillDigits(cardNum);
 }
 
-
-// normalizeData(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
-
-
-// allCards = concatCards.concat(vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
-
-// console.log(allCards);
-// combineObj(vehicleCards[0]);
-
-// d3.csv("vehicle-test.csv", function(data) {
-//   console.log(data[0]);
-// });
-
-
-// console.log(vehicleCards);
-
-// console.log(d3.keys(vehicleCards[0]));
-// console.log(vehicleCards[0]);
-// var vehicleTable = d3.select('#vehicleTable');
-// var thead = vehicleTable.append('tr');
-// var theadth = thead.selectAll('th')
-// 				.data(d3.keys(vehicleCards[0]))
-// 				.enter()
-// 				.append('th')
-// 				.text(function (d) { return d; });
-// // var tr = vehicleTable.append('tr');
-// var tr = vehicleTable.selectAll('tr')
-// 			.data(vehicleCards)
-// 			.enter()
-// 			.append('tr');
-// var trtd = tr.selectAll('td')
-// 			.data(function (d) {return d3.values(d); })
-// 			.enter()
-// 			.append('td')
-// 			.text(function (d) { return d; });
-
-// var keys = d3.keys(vehicleCards[0]);
-// console.log(keys);
-
 function writeTable (tableID, tableData) {
 	var keys = d3.keys(tableData[0]);
+	var createTable = d3.select(tableContainer).append('table').attr('id',tableID);
 	var table = d3.select('#'+tableID),
-		headRow = table.append('tr'),
+		headRow = table.append('thead').append('tr').classed('header-row',true),
 		headCell = headRow.selectAll('th')
 				.data(keys)
 				.enter()
@@ -226,7 +242,8 @@ function writeTable (tableID, tableData) {
 				.classed(tableID,true)
 				.attr('data-key',function (d) { return d; })
 				.text(function (d) { return d; }),
-		tr = table.selectAll('tr')
+		tbody = table.append('tbody'),
+		tr = tbody.selectAll('tr')
 			.data(tableData)
 			.enter()
 			.append('tr'),
@@ -240,52 +257,42 @@ function writeTable (tableID, tableData) {
 			.text(function (d) { return d; });
 }
 
+function mySortTest () {
+	var tbody = d3.select('#vehicleTable').select('tbody');
+	tbody.sort(function(a, b) { return b['Body'] - a['Body']; })
+	console.log(vehicleCards);
+}
+
+
 function showTable (tableId) {
 	$('table').css('display','none');
 	$('#'+tableId).css('display','block');
 }
 
-
-
 $(document).ready(function () {
-initData();
+	initData();
 
+	writeTable('vehicleTable', vehicleCards);
+	writeTable('crewTable', crewCards);
+	writeTable('upgradeTable', upgradeCards);
+	writeTable('actionTable', actionCards);
+	writeTable('trackTable', trackCards);
+	writeTable('allTable', allCards);
+	showTable('vehicleTable');
 
-d3.select('#container').append('table').attr('id','vehicleTable');
-d3.select('#container').append('table').attr('id','crewTable');
-d3.select('#container').append('table').attr('id','upgradeTable');
-d3.select('#container').append('table').attr('id','actionTable');
-d3.select('#container').append('table').attr('id','trackTable');
-d3.select('#container').append('table').attr('id','allTable');
+	$('#navlinks li').on('click',function () {
+		var thisLink = $(this).attr('data-link');
+		if (!thisLink) return;
+		console.log(thisLink);
+		showTable(thisLink);
+	})
 
-writeTable('vehicleTable', vehicleCards);
-writeTable('crewTable', crewCards);
-writeTable('upgradeTable', upgradeCards);
-writeTable('actionTable', actionCards);
-writeTable('trackTable', trackCards);
-writeTable('allTable', allCards);
-// console.log(allCards);
-showTable('vehicleTable');
-
-$('#navlinks li').on('click',function () {
-	var thisLink = $(this).attr('data-link');
-	console.log(thisLink);
-	showTable(thisLink);
-})
-
-
-// d3.select('#container').append('table').attr('id','comboTable');
-
-// writeTable('#comboTable', testobj);
+	$('#navlinks .sort-link').on('click',function () {
+		console.log('clickwoo');
+		mySortTest();
+	});
 
 });
-
-// var testobj = vehicleCards;
-// _.extend(testobj,crewCards,upgradeCards,actionCards,trackCards);
-// console.log(testobj);
-
-// var comboObject = _.extend({},vehicleCards,crewCards,upgradeCards,actionCards,trackCards);
-// console.log(comboObject);
 
 
 
