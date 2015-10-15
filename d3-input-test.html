@@ -232,7 +232,7 @@ function generateCardID (cardCode,cardNum) {
 
 function writeTable (tableID, tableData) {
 	var keys = d3.keys(tableData[0]);
-	var createTable = d3.select(tableContainer).append('table').attr('id',tableID);
+	var createTable = d3.select(tableContainer).append('table').attr('id',tableID).attr('data-key','Total Points');
 	var table = d3.select('#'+tableID),
 		headRow = table.append('thead').append('tr').classed('header-row',true),
 		headCell = headRow.selectAll('th')
@@ -289,11 +289,60 @@ $(document).ready(function () {
 
 	$('#navlinks .sort-link').on('click',function () {
 		console.log('clickwoo');
-		mySortTest();
+		// mySortTest();
+		var vehicleTable = d3.select('#vehicleTable');
+		headSort(vehicleTable);
+	});
+
+	$('#vehicleTable th').on('click',function () {
+		// console.log('clickwoo');
+		var vehicleTable = d3.select('#vehicleTable');
+		headSort(vehicleTable);
 	});
 
 });
 
+
+var headSort = function (g) {
+	// console.log('CLICKWOO');
+	// return;
+	var el = d3.select(this);
+	console.log(el);
+	var key = g.attr('data-key');
+	// console.log(key);
+
+	var th = g.selectAll('th');
+	// console.log(th);
+
+	var c = function (a,b) {
+		a = a[key], b = b[key];
+		// console.log('sorting ' + a + " " + b);
+		return d3.ascending(a,b);
+	}
+	
+	var el = g.select('tbody')
+		.selectAll('tr')
+		.sort(c);
+
+
+
+	// return function (d,i) {
+	// 	console.log(d + 'khkjhkhj ' + i);
+	// 	var el = d3.select(this);
+
+	// 	var key = el.attr('data-key');
+	// 	console.log(i,key);
+
+	// 	var c = function (a,b) {
+	// 		a = a[key], b = b[key];
+	// 		return d3.ascending(a,b);
+	// 	}
+
+	// 	g.select('tbody')
+	// 		.selectAll('tr')
+	// 		.sort(c)
+	// }
+}
 
 
 </script>
